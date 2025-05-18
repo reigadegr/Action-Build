@@ -167,9 +167,9 @@ jobs:
           # sed -i 's/ -dirty//g' msm-kernel/scripts/setlocalversion
           # sed -i 's/ -dirty//g' external/dtc/scripts/setlocalversion
           sed -i '$i res=$(echo "$res" | sed '\''s/-dirty//g'\'')' common/scripts/setlocalversion
-          # cd common
-          # git add -A
-          # git commit -m "Force remove -dirty suffix from kernel version"
+          cd common
+          git add -A
+          git commit -m "Force remove -dirty suffix from kernel version"
 
       # 自定义内核后缀
       - name: Modify setlocalversion suffix if SUFFIX is set
@@ -181,6 +181,7 @@ jobs:
               sed -i '/^res=/a res=$(echo "$res" | sed -E '\''s/-[0-9]+-o-g[0-9a-f]{7,}//'\'')' "$path"
               sed -i "\$s|echo \"\\\$res\"|echo \"\$res-${{ github.event.inputs.SUFFIX }}\"|" "$path"
           done
+          cd common
           git add -A
           git commit -m "Clean git describe suffix and append custom suffix: ${{ github.event.inputs.SUFFIX }}"
 
@@ -203,7 +204,7 @@ jobs:
               # 替换 echo "$res" 为带随机后缀
               sed -i "\$s|echo \"\\\$res\"|echo \"\$res-$RANDOM_SUFFIX\"|" "$path"
           done
-
+          cd common
           git add -A
           git commit -m "Fix: inject random suffix"
 
