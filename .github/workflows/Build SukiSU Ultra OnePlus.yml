@@ -78,7 +78,7 @@ on:
         type: choice
         description: "编译方式"
         required: true
-        default: gki
+        default: perf
         options:
           - gki
           - perf
