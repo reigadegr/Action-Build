@@ -247,7 +247,8 @@ jobs:
       - name: Remove OnePlus Kernel Modules
         run: |
           cd kernel_workspace/common
-          git apply ../../rm_oplus_kmodules.patch
+          wget https://raw.githubusercontent.com/reigadegr/Action-Build/gki_official/rm_oplus_kmodules.patch
+          git apply ./rm_oplus_kmodules.patch
           echo "强制不加载一加内核模块完成"
           
       - name: Apply Hide Stuff Patches
