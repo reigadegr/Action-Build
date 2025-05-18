@@ -214,173 +214,173 @@ jobs:
           git commit -m "Fix: inject random suffix"
 
       # 添加 SukiSU Ultra
-      - name: Add KernelSU-SukiSU Ultra
-        run: |
-          cd kernel_workspace/kernel_platform
-          curl -LSs "https://raw.githubusercontent.com/ShirkNeko/SukiSU-Ultra/main/kernel/setup.sh" | bash -s susfs-dev
-          cd ./KernelSU
-          KSU_VERSION=$(expr $(/usr/bin/git rev-list --count main) "+" 10606)
-          echo "KSUVER=$KSU_VERSION" >> $GITHUB_ENV
-          export KSU_VERSION=$KSU_VERSION
-          sed -i "s/DKSU_VERSION=12800/DKSU_VERSION=${KSU_VERSION}/" kernel/Makefile
+      # - name: Add KernelSU-SukiSU Ultra
+        # run: |
+          # cd kernel_workspace/kernel_platform
+          # curl -LSs "https://raw.githubusercontent.com/ShirkNeko/SukiSU-Ultra/main/kernel/setup.sh" | bash -s susfs-dev
+          # cd ./KernelSU
+          # KSU_VERSION=$(expr $(/usr/bin/git rev-list --count main) "+" 10606)
+          # echo "KSUVER=$KSU_VERSION" >> $GITHUB_ENV
+          # export KSU_VERSION=$KSU_VERSION
+          # sed -i "s/DKSU_VERSION=12800/DKSU_VERSION=${KSU_VERSION}/" kernel/Makefile
 
-      - name: Apply Patches SukiSU Ultra
-        run: |
-          cd kernel_workspace
-          git clone https://gitlab.com/simonpunk/susfs4ksu.git -b gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}
-          git clone https://github.com/ShirkNeko/SukiSU_patch.git
-          cd kernel_platform
-          echo "正在打susfs补丁"
-          cp ../susfs4ksu/kernel_patches/50_add_susfs_in_gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch ./common/
-          cp ../susfs4ksu/kernel_patches/fs/* ./common/fs/
-          cp ../susfs4ksu/kernel_patches/include/linux/* ./common/include/linux/
+      # - name: Apply Patches SukiSU Ultra
+        # run: |
+          # cd kernel_workspace
+          # git clone https://gitlab.com/simonpunk/susfs4ksu.git -b gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}
+          # git clone https://github.com/ShirkNeko/SukiSU_patch.git
+          # cd kernel_platform
+          # echo "正在打susfs补丁"
+          # cp ../susfs4ksu/kernel_patches/50_add_susfs_in_gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch ./common/
+          # cp ../susfs4ksu/kernel_patches/fs/* ./common/fs/
+          # cp ../susfs4ksu/kernel_patches/include/linux/* ./common/include/linux/
 
-          if [ "${{ github.event.inputs.ZRAM }}" = "true" ]; then
-          echo "正在打zram补丁"
-          cp -r ../SukiSU_patch/other/zram/lz4k/include/linux/* ./common/include/linux
-          cp -r ../SukiSU_patch/other/zram/lz4k/lib/* ./common/lib
-          cp -r ../SukiSU_patch/other/zram/lz4k/crypto/* ./common/crypto
-          cp -r ../SukiSU_patch/other/zram/lz4k_oplus ./common/lib/
-          echo "zram_patch完成"
-          fi
+          # if [ "${{ github.event.inputs.ZRAM }}" = "true" ]; then
+          # echo "正在打zram补丁"
+          # cp -r ../SukiSU_patch/other/zram/lz4k/include/linux/* ./common/include/linux
+          # cp -r ../SukiSU_patch/other/zram/lz4k/lib/* ./common/lib
+          # cp -r ../SukiSU_patch/other/zram/lz4k/crypto/* ./common/crypto
+          # cp -r ../SukiSU_patch/other/zram/lz4k_oplus ./common/lib/
+          # echo "zram_patch完成"
+          # fi
 
-          cd ./common
-          if [[ "${{ github.event.inputs.FEIL }}" == "oneplus_13" || "${{ github.event.inputs.FEIL }}" == "oneplus_ace5_pro" ]]; then
-           sed -i 's/-32,12 +32,38/-32,11 +32,37/g' 50_add_susfs_in_gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch
-           sed -i '/#include <trace\/hooks\/fs.h>/d' 50_add_susfs_in_gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch
-          fi
-          patch -p1 < 50_add_susfs_in_gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch || true
-          echo "susfs_patch完成"
+          # cd ./common
+          # if [[ "${{ github.event.inputs.FEIL }}" == "oneplus_13" || "${{ github.event.inputs.FEIL }}" == "oneplus_ace5_pro" ]]; then
+           # sed -i 's/-32,12 +32,38/-32,11 +32,37/g' 50_add_susfs_in_gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch
+           # sed -i '/#include <trace\/hooks\/fs.h>/d' 50_add_susfs_in_gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch
+          # fi
+          # patch -p1 < 50_add_susfs_in_gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch || true
+          # echo "susfs_patch完成"
 
-      - name: Apply Hide Stuff Patches
-        run: |
-          cd kernel_workspace/kernel_platform/common
-          cp ../../SukiSU_patch/69_hide_stuff.patch ./
-          echo "正在打隐藏应用补丁"
-          patch -p1 -F 3 < 69_hide_stuff.patch
-          echo "隐藏应用_patch完成"
+      # - name: Apply Hide Stuff Patches
+        # run: |
+          # cd kernel_workspace/kernel_platform/common
+          # cp ../../SukiSU_patch/69_hide_stuff.patch ./
+          # echo "正在打隐藏应用补丁"
+          # patch -p1 -F 3 < 69_hide_stuff.patch
+          # echo "隐藏应用_patch完成"
 
-      - name: Apply VFS
-        run: |
-          cd kernel_workspace/kernel_platform/common
-          if [ "${{ github.event.inputs.VFS }}" = "true" ]; then
-            cp ../../SukiSU_patch/hooks/syscall_hooks.patch ./
-            echo "正在打vfs补丁"
-            patch -p1 -F 3 < syscall_hooks.patch
-            echo "vfs_patch完成"
-          fi
+      # - name: Apply VFS
+        # run: |
+          # cd kernel_workspace/kernel_platform/common
+          # if [ "${{ github.event.inputs.VFS }}" = "true" ]; then
+            # cp ../../SukiSU_patch/hooks/syscall_hooks.patch ./
+            # echo "正在打vfs补丁"
+            # patch -p1 -F 3 < syscall_hooks.patch
+            # echo "vfs_patch完成"
+          # fi
 
-      - name: Apply LZ4KD
-        run: |
-          cd kernel_workspace/kernel_platform/common
-          if [ "${{ github.event.inputs.ZRAM }}" = "true" ]; then
-            cp ../../SukiSU_patch/other/zram/zram_patch/${{ github.event.inputs.KERNEL_VERSION }}/lz4kd.patch ./
-            echo "正在打lz4kd补丁"
-            patch -p1 -F 3 < lz4kd.patch || true
-            echo 'lz4kd_patch完成'
-            cp ../../SukiSU_patch/other/zram/zram_patch/${{ github.event.inputs.KERNEL_VERSION }}/lz4k_oplus.patch ./
-            echo "正在打lz4k_oplus补丁"
-            patch -p1 -F 3 < lz4k_oplus.patch || true
-            echo 'lz4k_oplus_patch完成'
-          fi
+      # - name: Apply LZ4KD
+        # run: |
+          # cd kernel_workspace/kernel_platform/common
+          # if [ "${{ github.event.inputs.ZRAM }}" = "true" ]; then
+            # cp ../../SukiSU_patch/other/zram/zram_patch/${{ github.event.inputs.KERNEL_VERSION }}/lz4kd.patch ./
+            # echo "正在打lz4kd补丁"
+            # patch -p1 -F 3 < lz4kd.patch || true
+            # echo 'lz4kd_patch完成'
+            # cp ../../SukiSU_patch/other/zram/zram_patch/${{ github.event.inputs.KERNEL_VERSION }}/lz4k_oplus.patch ./
+            # echo "正在打lz4k_oplus补丁"
+            # patch -p1 -F 3 < lz4k_oplus.patch || true
+            # echo 'lz4k_oplus_patch完成'
+          # fi
 
-      # 配置信息
-      - name: Add Configuration Settings
-        run: |
-          cd kernel_workspace/kernel_platform
-          CONFIG_FILE=./common/arch/arm64/configs/gki_defconfig
-          KERNEL_VERSION="${{ github.event.inputs.KERNEL_VERSION }}"
+      # # 配置信息
+      # - name: Add Configuration Settings
+        # run: |
+          # cd kernel_workspace/kernel_platform
+          # CONFIG_FILE=./common/arch/arm64/configs/gki_defconfig
+          # KERNEL_VERSION="${{ github.event.inputs.KERNEL_VERSION }}"
 
-          # SukiSU Ultra config
-          echo "CONFIG_KSU=y" >> "$CONFIG_FILE"
-          echo "CONFIG_KPM=y" >> "$CONFIG_FILE"
-          if [ "${{ github.event.inputs.VFS }}" = "false" ]; then
-          echo "CONFIG_KPROBES=y" >> "$CONFIG_FILE"
-          fi
-          # VFS config
-          if [ "${{ github.event.inputs.VFS }}" = "true" ]; then
-            echo "CONFIG_KSU_SUSFS_SUS_SU=n" >> "$CONFIG_FILE"
-            echo "CONFIG_KSU_MANUAL_HOOK=y" >> "$CONFIG_FILE"
-          fi
+          # # SukiSU Ultra config
+          # echo "CONFIG_KSU=y" >> "$CONFIG_FILE"
+          # echo "CONFIG_KPM=y" >> "$CONFIG_FILE"
+          # if [ "${{ github.event.inputs.VFS }}" = "false" ]; then
+          # echo "CONFIG_KPROBES=y" >> "$CONFIG_FILE"
+          # fi
+          # # VFS config
+          # if [ "${{ github.event.inputs.VFS }}" = "true" ]; then
+            # echo "CONFIG_KSU_SUSFS_SUS_SU=n" >> "$CONFIG_FILE"
+            # echo "CONFIG_KSU_MANUAL_HOOK=y" >> "$CONFIG_FILE"
+          # fi
 
-          if [ "${{ github.event.inputs.VFS }}" = "false" ]; then
-            echo "CONFIG_KSU_SUSFS_SUS_SU=y" >> "$CONFIG_FILE"
-          fi
+          # if [ "${{ github.event.inputs.VFS }}" = "false" ]; then
+            # echo "CONFIG_KSU_SUSFS_SUS_SU=y" >> "$CONFIG_FILE"
+          # fi
 
-          # SUSFS config
-          if [ "${{ github.event.inputs.VFS }}" = "true" ]; then
-          echo "CONFIG_KSU_SUSFS=y" >> "$CONFIG_FILE"
-          echo "CONFIG_KSU_SUSFS_HAS_MAGIC_MOUNT=y" >> "$CONFIG_FILE"
-          echo "CONFIG_KSU_SUSFS_SUS_PATH=y" >> "$CONFIG_FILE"
-          echo "CONFIG_KSU_SUSFS_SUS_MOUNT=y" >> "$CONFIG_FILE"
-          echo "CONFIG_KSU_SUSFS_AUTO_ADD_SUS_KSU_DEFAULT_MOUNT=y" >> "$CONFIG_FILE"
-          echo "CONFIG_KSU_SUSFS_AUTO_ADD_SUS_BIND_MOUNT=y" >> "$CONFIG_FILE"
-          echo "CONFIG_KSU_SUSFS_SUS_KSTAT=y" >> "$CONFIG_FILE"
-          echo "CONFIG_KSU_SUSFS_SUS_OVERLAYFS=n" >> "$CONFIG_FILE"
-          echo "CONFIG_KSU_SUSFS_TRY_UMOUNT=y" >> "$CONFIG_FILE"
-          echo "CONFIG_KSU_SUSFS_AUTO_ADD_TRY_UMOUNT_FOR_BIND_MOUNT=y" >> "$CONFIG_FILE"
-          echo "CONFIG_KSU_SUSFS_SPOOF_UNAME=y" >> "$CONFIG_FILE"
-          echo "CONFIG_KSU_SUSFS_ENABLE_LOG=y" >> "$CONFIG_FILE"
-          echo "CONFIG_KSU_SUSFS_HIDE_KSU_SUSFS_SYMBOLS=y" >> "$CONFIG_FILE"
-          echo "CONFIG_KSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG=y" >> "$CONFIG_FILE"
-          echo "CONFIG_KSU_SUSFS_OPEN_REDIRECT=y" >> "$CONFIG_FILE"
-          fi
+          # # SUSFS config
+          # if [ "${{ github.event.inputs.VFS }}" = "true" ]; then
+          # echo "CONFIG_KSU_SUSFS=y" >> "$CONFIG_FILE"
+          # echo "CONFIG_KSU_SUSFS_HAS_MAGIC_MOUNT=y" >> "$CONFIG_FILE"
+          # echo "CONFIG_KSU_SUSFS_SUS_PATH=y" >> "$CONFIG_FILE"
+          # echo "CONFIG_KSU_SUSFS_SUS_MOUNT=y" >> "$CONFIG_FILE"
+          # echo "CONFIG_KSU_SUSFS_AUTO_ADD_SUS_KSU_DEFAULT_MOUNT=y" >> "$CONFIG_FILE"
+          # echo "CONFIG_KSU_SUSFS_AUTO_ADD_SUS_BIND_MOUNT=y" >> "$CONFIG_FILE"
+          # echo "CONFIG_KSU_SUSFS_SUS_KSTAT=y" >> "$CONFIG_FILE"
+          # echo "CONFIG_KSU_SUSFS_SUS_OVERLAYFS=n" >> "$CONFIG_FILE"
+          # echo "CONFIG_KSU_SUSFS_TRY_UMOUNT=y" >> "$CONFIG_FILE"
+          # echo "CONFIG_KSU_SUSFS_AUTO_ADD_TRY_UMOUNT_FOR_BIND_MOUNT=y" >> "$CONFIG_FILE"
+          # echo "CONFIG_KSU_SUSFS_SPOOF_UNAME=y" >> "$CONFIG_FILE"
+          # echo "CONFIG_KSU_SUSFS_ENABLE_LOG=y" >> "$CONFIG_FILE"
+          # echo "CONFIG_KSU_SUSFS_HIDE_KSU_SUSFS_SYMBOLS=y" >> "$CONFIG_FILE"
+          # echo "CONFIG_KSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG=y" >> "$CONFIG_FILE"
+          # echo "CONFIG_KSU_SUSFS_OPEN_REDIRECT=y" >> "$CONFIG_FILE"
+          # fi
 
-          # Remove check_defconfig
-          sed -i 's/check_defconfig//' ./common/build.config.gki
+          # # Remove check_defconfig
+          # sed -i 's/check_defconfig//' ./common/build.config.gki
 
-          # LZ4KD配置
-          if [ "${{ github.event.inputs.ZRAM }}" = "true" ]; then
-          CONFIG_FILE=./common/arch/arm64/configs/gki_defconfig
+          # # LZ4KD配置
+          # if [ "${{ github.event.inputs.ZRAM }}" = "true" ]; then
+          # CONFIG_FILE=./common/arch/arm64/configs/gki_defconfig
 
-            if [ "${{ github.event.inputs.KERNEL_VERSION }}" = "5.10" ]; then
-              echo "CONFIG_ZSMALLOC=y" >> "$CONFIG_FILE"
-              echo "CONFIG_ZRAM=y" >> "$CONFIG_FILE"
-              echo "CONFIG_MODULE_SIG=n" >> "$CONFIG_FILE"
-              echo "CONFIG_CRYPTO_LZO=y" >> "$CONFIG_FILE"
-              echo "CONFIG_ZRAM_DEF_COMP_LZ4KD=y" >> "$CONFIG_FILE"
-            fi
+            # if [ "${{ github.event.inputs.KERNEL_VERSION }}" = "5.10" ]; then
+              # echo "CONFIG_ZSMALLOC=y" >> "$CONFIG_FILE"
+              # echo "CONFIG_ZRAM=y" >> "$CONFIG_FILE"
+              # echo "CONFIG_MODULE_SIG=n" >> "$CONFIG_FILE"
+              # echo "CONFIG_CRYPTO_LZO=y" >> "$CONFIG_FILE"
+              # echo "CONFIG_ZRAM_DEF_COMP_LZ4KD=y" >> "$CONFIG_FILE"
+            # fi
 
-            if [ "${{ github.event.inputs.KERNEL_VERSION }}" != "6.6" ] && [ "${{ github.event.inputs.KERNEL_VERSION }}" != "5.10" ]; then
-              if grep -q "CONFIG_ZSMALLOC" -- "$CONFIG_FILE"; then
-                sed -i 's/CONFIG_ZSMALLOC=m/CONFIG_ZSMALLOC=y/g' "$CONFIG_FILE"
-              else
-                echo "CONFIG_ZSMALLOC=y" >> "$CONFIG_FILE"
-              fi
-              sed -i 's/CONFIG_ZRAM=m/CONFIG_ZRAM=y/g' "$CONFIG_FILE"
-            fi
+            # if [ "${{ github.event.inputs.KERNEL_VERSION }}" != "6.6" ] && [ "${{ github.event.inputs.KERNEL_VERSION }}" != "5.10" ]; then
+              # if grep -q "CONFIG_ZSMALLOC" -- "$CONFIG_FILE"; then
+                # sed -i 's/CONFIG_ZSMALLOC=m/CONFIG_ZSMALLOC=y/g' "$CONFIG_FILE"
+              # else
+                # echo "CONFIG_ZSMALLOC=y" >> "$CONFIG_FILE"
+              # fi
+              # sed -i 's/CONFIG_ZRAM=m/CONFIG_ZRAM=y/g' "$CONFIG_FILE"
+            # fi
 
-            if [ "${{ github.event.inputs.KERNEL_VERSION }}" = "6.6" ]; then
-              echo "CONFIG_ZSMALLOC=y" >> "$CONFIG_FILE"
-              sed -i 's/CONFIG_ZRAM=m/CONFIG_ZRAM=y/g' "$CONFIG_FILE"
-            fi
+            # if [ "${{ github.event.inputs.KERNEL_VERSION }}" = "6.6" ]; then
+              # echo "CONFIG_ZSMALLOC=y" >> "$CONFIG_FILE"
+              # sed -i 's/CONFIG_ZRAM=m/CONFIG_ZRAM=y/g' "$CONFIG_FILE"
+            # fi
 
-            if [ "${{ github.event.inputs.ANDROID_VERSION }}" = "android14" ] || [ "${{ github.event.inputs.ANDROID_VERSION }}" = "android15" ]; then
-              if [  -e ./common/modules.bzl ]; then
-                sed -i 's/"drivers\/block\/zram\/zram\.ko",//g; s/"mm\/zsmalloc\.ko",//g' "./common/modules.bzl"
-              fi
+            # if [ "${{ github.event.inputs.ANDROID_VERSION }}" = "android14" ] || [ "${{ github.event.inputs.ANDROID_VERSION }}" = "android15" ]; then
+              # if [  -e ./common/modules.bzl ]; then
+                # sed -i 's/"drivers\/block\/zram\/zram\.ko",//g; s/"mm\/zsmalloc\.ko",//g' "./common/modules.bzl"
+              # fi
 
-              if [  -e ./msm-kernel/modules.bzl ]; then
-                sed -i 's/"drivers\/block\/zram\/zram\.ko",//g; s/"mm\/zsmalloc\.ko",//g' "./msm-kernel/modules.bzl"
-                echo "CONFIG_ZSMALLOC=y" >> "msm-kernel/arch/arm64/configs/${{ github.event.inputs.CPUD }}-GKI.config"
-                echo "CONFIG_ZRAM=y" >> "msm-kernel/arch/arm64/configs/${{ github.event.inputs.CPUD }}-GKI.config"
-              fi
+              # if [  -e ./msm-kernel/modules.bzl ]; then
+                # sed -i 's/"drivers\/block\/zram\/zram\.ko",//g; s/"mm\/zsmalloc\.ko",//g' "./msm-kernel/modules.bzl"
+                # echo "CONFIG_ZSMALLOC=y" >> "msm-kernel/arch/arm64/configs/${{ github.event.inputs.CPUD }}-GKI.config"
+                # echo "CONFIG_ZRAM=y" >> "msm-kernel/arch/arm64/configs/${{ github.event.inputs.CPUD }}-GKI.config"
+              # fi
               
-              echo "CONFIG_MODULE_SIG_FORCE=n" >> "$CONFIG_FILE"
-            elif [ "${{ github.event.inputs.KERNEL_VERSION }}" = "5.10" ] || [ "${{ github.event.inputs.KERNEL_VERSION }}" = "5.15" ]; then
-              rm "common/android/gki_aarch64_modules"
-              touch "common/android/gki_aarch64_modules"
-            fi
+              # echo "CONFIG_MODULE_SIG_FORCE=n" >> "$CONFIG_FILE"
+            # elif [ "${{ github.event.inputs.KERNEL_VERSION }}" = "5.10" ] || [ "${{ github.event.inputs.KERNEL_VERSION }}" = "5.15" ]; then
+              # rm "common/android/gki_aarch64_modules"
+              # touch "common/android/gki_aarch64_modules"
+            # fi
 
-            if grep -q "CONFIG_ZSMALLOC=y" "$CONFIG_FILE" && grep -q "CONFIG_ZRAM=y" "$CONFIG_FILE"; then
-              echo "CONFIG_CRYPTO_LZ4HC=y" >> "$CONFIG_FILE"
-              echo "CONFIG_CRYPTO_LZ4K=y" >> "$CONFIG_FILE"
-              echo "CONFIG_CRYPTO_LZ4KD=y" >> "$CONFIG_FILE"
-              echo "CONFIG_CRYPTO_842=y" >> "$CONFIG_FILE"
-              echo "CONFIG_CRYPTO_LZ4K_OPLUS=y" >> "$CONFIG_FILE"
-              echo "CONFIG_ZRAM_WRITEBACK=y" >> "$CONFIG_FILE"
-            fi
-          fi
+            # if grep -q "CONFIG_ZSMALLOC=y" "$CONFIG_FILE" && grep -q "CONFIG_ZRAM=y" "$CONFIG_FILE"; then
+              # echo "CONFIG_CRYPTO_LZ4HC=y" >> "$CONFIG_FILE"
+              # echo "CONFIG_CRYPTO_LZ4K=y" >> "$CONFIG_FILE"
+              # echo "CONFIG_CRYPTO_LZ4KD=y" >> "$CONFIG_FILE"
+              # echo "CONFIG_CRYPTO_842=y" >> "$CONFIG_FILE"
+              # echo "CONFIG_CRYPTO_LZ4K_OPLUS=y" >> "$CONFIG_FILE"
+              # echo "CONFIG_ZRAM_WRITEBACK=y" >> "$CONFIG_FILE"
+            # fi
+          # fi
 
       - name: Build kernel
         if: ${{ github.event.inputs.CPU == 'sm8650' || github.event.inputs.CPU == 'sm7675' }}
