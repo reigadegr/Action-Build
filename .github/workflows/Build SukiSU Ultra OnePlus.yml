@@ -243,7 +243,13 @@ jobs:
           # sed -i '/#include <trace\/hooks\/fs.h>/d' 50_add_susfs_in_gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch          
           patch -p1 < 50_add_susfs_in_gki-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }}.patch || true
           echo "susfs_patch完成"
-
+          
+      - name: Remove OnePlus Kernel Modules
+        run: |
+          cd kernel_workspace/common
+          git apply ../../rm_oplus_kmodules.patch
+          echo "强制不加载一加内核模块完成"
+          
       - name: Apply Hide Stuff Patches
         run: |
           cd kernel_workspace/common
