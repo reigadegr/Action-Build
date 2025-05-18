@@ -165,7 +165,7 @@ jobs:
           cd kernel_workspace
           sed -i 's/ -dirty//g' common/scripts/setlocalversion
           # sed -i 's/ -dirty//g' msm-kernel/scripts/setlocalversion
-          sed -i 's/ -dirty//g' external/dtc/scripts/setlocalversion
+          # sed -i 's/ -dirty//g' external/dtc/scripts/setlocalversion
           sed -i '$i res=$(echo "$res" | sed '\''s/-dirty//g'\'')' common/scripts/setlocalversion
           git add -A
           git commit -m "Force remove -dirty suffix from kernel version"
@@ -176,8 +176,7 @@ jobs:
         run: |
           cd kernel_workspace
           for path in \
-            common/scripts/setlocalversion \
-            external/dtc/scripts/setlocalversion; do
+            common/scripts/setlocalversion; do
               sed -i '/^res=/a res=$(echo "$res" | sed -E '\''s/-[0-9]+-o-g[0-9a-f]{7,}//'\'')' "$path"
               sed -i "\$s|echo \"\\\$res\"|echo \"\$res-${{ github.event.inputs.SUFFIX }}\"|" "$path"
           done
@@ -195,8 +194,7 @@ jobs:
           RANDOM_SUFFIX="${RANDOM_DIGIT}-o-g${RANDOM_HASH}"
 
           for path in \
-            common/scripts/setlocalversion \            
-            external/dtc/scripts/setlocalversion; do
+            common/scripts/setlocalversion; do
 
               # 清理默认后缀
               sed -i '/^res=/a res=$(echo "$res" | sed -E '\''s/-[0-9]+-o-g[0-9a-fA-F]{7,}//g'\'')' "$path"
