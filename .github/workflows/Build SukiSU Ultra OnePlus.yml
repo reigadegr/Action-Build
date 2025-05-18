@@ -398,6 +398,7 @@ jobs:
           dir3="kernel_workspace/out/msm-${{ github.event.inputs.CPUD }}-${{ github.event.inputs.CPUD }}-${{ github.event.inputs.BUILD_METHOD }}/dist/"
           dir4="kernel_workspace/out/msm-kernel-${{ github.event.inputs.CPUD }}-${{ github.event.inputs.BUILD_METHOD }}/gki_kernel/common/arch/arm64/boot/"
           dir5="kernel_workspace/out/msm-${{ github.event.inputs.CPUD }}-${{ github.event.inputs.CPUD }}-${{ github.event.inputs.BUILD_METHOD }}/gki_kernel/common/arch/arm64/boot/"
+          dir6="kernel_workspace/dist/"
           target1="./AnyKernel3/"
           target2="./kernel_workspace/kernel"
 
@@ -412,6 +413,8 @@ jobs:
             image_path="$dir4"Image
           elif find "$dir5" -name "Image" | grep -q "Image"; then
             image_path="$dir5"Image
+          elif find "$dir6" -name "Image" | grep -q "Image"; then
+            image_path="$dir6"Image
           else
             image_path=$(find "./kernel_workspace/common/out/" -name "Image" | head -n 1)
           fi
