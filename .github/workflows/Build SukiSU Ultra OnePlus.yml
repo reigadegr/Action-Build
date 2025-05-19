@@ -212,7 +212,13 @@ jobs:
 
           git add -A
           git commit -m "Fix: inject random suffix"
-
+          
+      - name: Remove OnePlus Kernel Module
+        run: |
+          cd kernel_workspace/kernel_platform/common
+          sed -i '/CONFIG_CMDLINE/d' ./arch/arm64/configs/gki_defconfig
+          echo "CONFIG_CMDLINE=\"console=ttynull stack_depot_disable=on cgroup_disable=pressure kasan.stacktrace=off kvm-arm.mode=protected bootconfig ioremap_guard module_blacklist=oplus_network_app_monitor,oplus_network_linkpower_module,oplus_network_vnet,oplus_network_score,oplus_network_qr_scan,oplus_network_game_first,oplus_network_sched,oplus_network_snapshot,oplus_network_tuning,oplus_network_data_module,oplus_network_stats_calc,oplus_network_dns_hook,oplus_connectivity_routerboost,oplus_connectivity_sla\"" >> ./arch/arm64/configs/gki_defconfig
+          echo "移除内核模块完成"
       # 添加 SukiSU Ultra
       # - name: Add KernelSU-SukiSU Ultra
         # run: |
