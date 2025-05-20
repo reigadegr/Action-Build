@@ -101,8 +101,12 @@ on:
         type: boolean
         description: "是否启用添加更多的ZRAM算法？"
         required: true
-        default: false
-
+        default: false        
+      FAST:
+        type: boolean
+        description: "是否启用快速构建，只生成Image？"
+        required: true
+        default: true
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -413,9 +417,13 @@ jobs:
         if: ${{ github.event.inputs.CPU != 'sm8650' && github.event.inputs.CPU != 'sm7675' }}
         run: |
          cd kernel_workspace/kernel_platform
-         export LTO=thin SYSTEM_DLKM_RE_SIGN=0 BUILD_SYSTEM_DLKM=0 KMI_SYMBOL_LIST_STRICT_MODE=0 
-         # ./kernel_platform/oplus/build/oplus_build_kernel.sh ${{ github.event.inputs.CPUD }} ${{ github.event.inputs.BUILD_METHOD }}
-         tools/bazel run --config=fast --config=stamp --lto=thin //common:kernel_aarch64_dist -- --dist_dir=dist
+         export LTO=thin SYSTEM_DLKM_RE_SIGN=0 BUILD_SYSTEM_DLKM=0 KMI_SYMBOL_LIST_STRICT_MODE=0          
+         if [ "${{ github.event.inputs.FAST }}" = "true" ]; then
+           tools/bazel run --config=fast --config=stamp --lto=thin //common:kernel_aarch64_dist -- --dist_dir=dist
+         else
+            cd  ../
+           ./kernel_platform/oplus/build/oplus_build_kernel.sh ${{ github.event.inputs.CPUD }} ${{ github.event.inputs.BUILD_METHOD }}
+         fi
 
       - name: Make AnyKernel3
         run: |
