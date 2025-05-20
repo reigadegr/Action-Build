@@ -1,5 +1,5 @@
 diff --git a/kernel/module/main.c b/kernel/module/main.c
-index 48afaf8..0dcfbcc 100644
+index 48afaf8..49751b8 100644
 --- a/kernel/module/main.c
 +++ b/kernel/module/main.c
 @@ -2864,6 +2864,50 @@ static int early_mod_check(struct load_info *info, int flags)
@@ -25,22 +25,22 @@ index 48afaf8..0dcfbcc 100644
 +    // "oplus_bsp_waker_identify",
 +    // "oplus_connectivity_routerboost",
 +    // "oplus_lock_torture",
-+    "oplus_network_dns_hook",
-+    "oplus_network_kernel_state_monitor",
-+    "oplus_network_qr_scan",
-+    "oplus_network_sched",
-+    "oplus_network_score",
-+    "oplus_network_snapshot",
-+    "oplus_network_stats_calc",
-+    "oplus_network_tuning",
-+    // "oplus_power_hook",
-+    // "oplus_secure_common",
-+    // "oplus_secure_guard_new",
-+    // "oplus_sys_stability_helper",
-+    // "oplus_wq_dynamic_priority",
-+    // "qcom_cpufreq_thermal",
-+    // "thermal_config",
-+    // "thermal_pause",
++    // "oplus_network_dns_hook",
++    // "oplus_network_kernel_state_monitor",
++    // "oplus_network_qr_scan",
++    // "oplus_network_sched",
++    // "oplus_network_score",
++    // "oplus_network_snapshot",
++    // "oplus_network_stats_calc",
++    // "oplus_network_tuning",
++    "oplus_power_hook",
++    "oplus_secure_common",
++    "oplus_secure_guard_new",
++    "oplus_sys_stability_helper",
++    "oplus_wq_dynamic_priority",
++    "qcom_cpufreq_thermal",
++    "thermal_config",
++    "thermal_pause",
 +    NULL
 +};
 +
