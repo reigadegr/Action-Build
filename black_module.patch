@@ -1,5 +1,5 @@
 diff --git a/kernel/module/main.c b/kernel/module/main.c
-index 48afaf8..9cc0c5e 100644
+index 48afaf8..b7202cd 100644
 --- a/kernel/module/main.c
 +++ b/kernel/module/main.c
 @@ -2864,6 +2864,54 @@ static int early_mod_check(struct load_info *info, int flags)
@@ -7,10 +7,10 @@ index 48afaf8..9cc0c5e 100644
  }
  
 +static const char *blocked_modules_dev[] = {
-+    "oplus_bsp_hybridswap_zram",
++    // "oplus_bsp_hybridswap_zram",
 +    "oplus_bsp_kswapd_opt",
 +    "oplus_bsp_zram_opt",
-+    "oplus_bsp_zsmalloc",
++    // "oplus_bsp_zsmalloc",
 +    NULL
 +};
 +
