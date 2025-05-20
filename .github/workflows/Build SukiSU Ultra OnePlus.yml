@@ -216,8 +216,8 @@ jobs:
       - name: Remove OnePlus Kernel Module
         run: |
           cd kernel_workspace/kernel_platform/common
-          wget https://github.com/reigadegr/Action-Build/raw/suki/black2.patch
-          git apply black2.patch
+          wget https://github.com/reigadegr/Action-Build/raw/suki/black_module.patch
+          git apply black_module.patch
           # Remove check_defconfig
           sed -i 's/check_defconfig//' ./build.config.gki
           echo "移除内核模块完成"
