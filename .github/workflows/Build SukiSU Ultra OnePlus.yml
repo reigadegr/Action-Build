@@ -216,9 +216,8 @@ jobs:
       - name: Remove OnePlus Kernel Module
         run: |
           cd kernel_workspace/kernel_platform/common
-          sed -i 's/CONFIG_MODULE_SIG=y/CONFIG_MODULE_SIG=n/g'  ./arch/arm64/configs/gki_defconfig
-          # 在内核源码根目录执行
-          echo "CONFIG_MODULE_SIG_ALL=n" >> ./arch/arm64/configs/gki_defconfig
+          # sed -i 's/CONFIG_MODULE_SIG=y/CONFIG_MODULE_SIG=n/g'  ./arch/arm64/configs/gki_defconfig
+          # echo "CONFIG_MODULE_SIG_ALL=n" >> ./arch/arm64/configs/gki_defconfig
           echo 'obj-y += oplus_network_game_first.o' >> drivers/Makefile
           sed -i '/endmenu/d' drivers/Kconfig          
           echo -e 'config OPLUS_NETWORK_GAME_FIRST\n\tbool\ndefault y' >> drivers/Kconfig
