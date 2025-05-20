@@ -1,5 +1,5 @@
 diff --git a/kernel/module/main.c b/kernel/module/main.c
-index 48afaf8..acefd50 100644
+index 48afaf8..58139a7 100644
 --- a/kernel/module/main.c
 +++ b/kernel/module/main.c
 @@ -2864,6 +2864,50 @@ static int early_mod_check(struct load_info *info, int flags)
@@ -7,32 +7,32 @@ index 48afaf8..acefd50 100644
  }
  
 +static const char *blocked_modules_dev[] = {
-+    // "cpu_hotplug",
-+    // "f_fs_ipc_log",
-+    // "hung_task_enh",
-+    // "oplus_bsp_dfr_hung_task_enhance",
-+    // "oplus_bsp_dfr_reboot_speed",
-+    // "oplus_bsp_dfr_ubt",
-+    // "oplus_bsp_dynamic_readahead",
-+    // "oplus_bsp_fpga_monitor",
-+    // "oplus_bsp_kshrink_slabd",
-+    // "oplus_bsp_memleak_detect",
-+    // "oplus_bsp_pcppages_opt",
-+    // "oplus_bsp_proactive_compact",
-+    // "oplus_bsp_sigkill_diagnosis",
-+    // "oplus_bsp_storage_io_metrics",
-+    // "oplus_bsp_uxmem_opt",
-+    // "oplus_bsp_waker_identify",
-+    // "oplus_connectivity_routerboost",
-+    // "oplus_lock_torture",
-+    // "oplus_power_hook",
-+    // "oplus_secure_common",
-+    // "oplus_secure_guard_new",
-+    // "oplus_sys_stability_helper",
-+    // "oplus_wq_dynamic_priority",
-+    // "qcom_cpufreq_thermal",
-+    // "thermal_config",
-+    // "thermal_pause",
++    "cpu_hotplug",
++    "f_fs_ipc_log",
++    "hung_task_enh",
++    "oplus_bsp_dfr_hung_task_enhance",
++    "oplus_bsp_dfr_reboot_speed",
++    "oplus_bsp_dfr_ubt",
++    "oplus_bsp_dynamic_readahead",
++    "oplus_bsp_fpga_monitor",
++    "oplus_bsp_kshrink_slabd",
++    "oplus_bsp_memleak_detect",
++    "oplus_bsp_pcppages_opt",
++    "oplus_bsp_proactive_compact",
++    "oplus_bsp_sigkill_diagnosis",
++    "oplus_bsp_storage_io_metrics",
++    "oplus_bsp_uxmem_opt",
++    "oplus_bsp_waker_identify",
++    "oplus_connectivity_routerboost",
++    "oplus_lock_torture",
++    "oplus_power_hook",
++    "oplus_secure_common",
++    "oplus_secure_guard_new",
++    "oplus_sys_stability_helper",
++    "oplus_wq_dynamic_priority",
++    "qcom_cpufreq_thermal",
++    "thermal_config",
++    "thermal_pause",
 +    NULL
 +};
 +
@@ -68,7 +68,7 @@ index 48afaf8..acefd50 100644
 +    for (i = 0; blocked_modules_dev[i] != NULL; i++) {
 +        if (strcmp(mod->name, blocked_modules_dev[i]) == 0) {
 +            pr_warn("Dev: Module %s is blacklisted\n", mod->name);
-+            err = -EPERM;
++            // err = -EPERM;
 +            goto free_module;
 +        }
 +    }
@@ -76,7 +76,7 @@ index 48afaf8..acefd50 100644
 +    for (i = 0; blocked_modules_stable[i] != NULL; i++) {
 +        if (strcmp(mod->name, blocked_modules_stable[i]) == 0) {
 +            pr_warn("Stable: Module %s is blacklisted\n", mod->name);
-+            err = -EPERM;
++            // err = -EPERM;
 +            goto free_module;
 +        }
 +    }

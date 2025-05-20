@@ -7,7 +7,7 @@ index 48afaf8..c196c46 100644
  }
  
 +static const char *blocked_modules[] = {
-+    "oplus_network_game_first",
++    "oplus_bsp_dfr_hung_task_enhance",
 +    NULL
 +};
 +
