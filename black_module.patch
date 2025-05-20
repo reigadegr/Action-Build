@@ -1,16 +1,72 @@
 diff --git a/kernel/module/main.c b/kernel/module/main.c
-index 48afaf8..b26f84c 100644
+index 48afaf8..7da9244 100644
 --- a/kernel/module/main.c
 +++ b/kernel/module/main.c
-@@ -2916,6 +2916,11 @@ static int load_module(struct load_info *info, const char __user *uargs,
+@@ -2864,6 +2864,44 @@ static int early_mod_check(struct load_info *info, int flags)
+ 	return err;
+ }
+ 
++static const char *blocked_modules[] = {
++    "oplus_wq_dynamic_priority",
++    "oplus_bsp_waker_identify",
++    "oplus_secure_guard_new",
++    "oplus_network_game_first",
++    "oplus_connectivity_routerboost",
++    "oplus_bsp_pcppages_opt",
++    "oplus_bsp_uxmem_opt",
++    "oplus_bsp_zram_opt",
++    "oplus_bsp_kswapd_opt",
++    "oplus_network_snapshot",
++    "oplus_bsp_memleak_detect",
++    "oplus_bsp_proactive_compact",
++    "oplus_bsp_dfr_ubt",
++    "oplus_bsp_sigkill_diagnosis",
++    "oplus_bsp_storage_io_metrics",
++    "oplus_network_app_monitor",
++    "oplus_network_kernel_state_monitor",
++    "oplus_bsp_fpga_monitor",
++    "oplus_sys_stability_helper",
++    "oplus_secure_common",
++    "oplus_network_qr_scan",
++    "oplus_bsp_hybridswap_zram",
++    "oplus_network_dns_hook",
++    "oplus_power_hook",
++    "oplus_network_tuning",
++    "oplus_lock_torture",
++    "oplus_network_score",
++    "oplus_bsp_dfr_hung_task_enhance",
++    "oplus_network_sched",
++    "oplus_bsp_dfr_reboot_speed",
++    "oplus_bsp_kshrink_slabd",
++    "oplus_bsp_dynamic_readahead",
++    "oplus_bsp_zsmalloc",
++    "oplus_network_stats_calc",
++    NULL
++};
++
+ /*
+  * Allocate and load the module: note that size of section 0 is always
+  * zero, and we rely on this for optional sections.
+@@ -2874,6 +2912,7 @@ static int load_module(struct load_info *info, const char __user *uargs,
+ 	struct module *mod;
+ 	bool module_allocated = false;
+ 	long err = 0;
++    int i = 0;
+ 	char *after_dashes;
+ 
+ 	/*
+@@ -2915,6 +2954,14 @@ static int load_module(struct load_info *info, const char __user *uargs,
+ 	module_allocated = true;
  
  	audit_log_kern_module(mod->name);
- 
-+    if (strcmp(mod->name, "oplus_network_game_first") == 0) {
-+        pr_warn("Module loading blocked: %s\n", mod->name);
-+        err = -EPERM;
-+        goto free_module;
++    
++    for (i = 0; blocked_modules[i] != NULL; i++) {
++        if (strcmp(mod->name, blocked_modules[i]) == 0) {
++            pr_warn("Blocked module: %s\n", mod->name);
++            err = -EPERM;
++            goto free_module;
++        }
 +    }
+ 
  	/* Reserve our place in the list. */
  	err = add_unformed_module(mod);
- 	if (err)
