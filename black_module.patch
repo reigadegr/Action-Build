@@ -1,0 +1,16 @@
+diff --git a/kernel/module/main.c b/kernel/module/main.c
+index 48afaf8..b26f84c 100644
+--- a/kernel/module/main.c
++++ b/kernel/module/main.c
+@@ -2916,6 +2916,11 @@ static int load_module(struct load_info *info, const char __user *uargs,
+ 
+ 	audit_log_kern_module(mod->name);
+ 
++    if (strcmp(mod->name, "oplus_network_game_first") == 0) {
++        pr_warn("Module loading blocked: %s\n", mod->name);
++        err = -EPERM;
++        goto free_module;
++    }
+ 	/* Reserve our place in the list. */
+ 	err = add_unformed_module(mod);
+ 	if (err)

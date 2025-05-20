@@ -216,17 +216,8 @@ jobs:
       - name: Remove OnePlus Kernel Module
         run: |
           cd kernel_workspace/kernel_platform/common
-          # sed -i 's/CONFIG_MODULE_SIG=y/CONFIG_MODULE_SIG=n/g'  ./arch/arm64/configs/gki_defconfig
-          # echo "CONFIG_MODULE_SIG_ALL=n" >> ./arch/arm64/configs/gki_defconfig
-          echo 'obj-y += oplus_network_game_first.o' >> drivers/Makefile
-          sed -i '/endmenu/d' drivers/Kconfig          
-          echo -e 'config OPLUS_NETWORK_GAME_FIRST\n\tbool\ndefault y' >> drivers/Kconfig
-          echo -e '\nendmenu' >> drivers/Kconfig
-          wget https://github.com/reigadegr/Action-Build/raw/suki/template.c
-          mv template.c drivers/oplus_network_game_first.c
-          # echo 'void dummy(void){}' > drivers/oplus_network_game_first.c
-          # sed -i '/CONFIG_CMDLINE/d' ./arch/arm64/configs/gki_defconfig
-          # echo "CONFIG_CMDLINE=\"console=ttynull stack_depot_disable=on cgroup_disable=pressure kasan.stacktrace=off kvm-arm.mode=protected bootconfig ioremap_guard module_blacklist=cpu_hotplug,f_fs_ipc_log,hung_task_enh,oplus_bsp_dfr_hung_task_enhance,oplus_bsp_dfr_reboot_speed,oplus_bsp_dfr_ubt,oplus_bsp_dynamic_readahead,oplus_bsp_fpga_monitor,oplus_bsp_hybridswap_zram,oplus_bsp_kshrink_slabd,oplus_bsp_kswapd_opt,oplus_bsp_memleak_detect,oplus_bsp_pcppages_opt,oplus_bsp_proactive_compact,oplus_bsp_sigkill_diagnosis,oplus_bsp_storage_io_metrics,oplus_bsp_uxmem_opt,oplus_bsp_waker_identify,oplus_bsp_zram_opt,oplus_bsp_zsmalloc,oplus_connectivity_routerboost,oplus_lock_torture,oplus_network_app_monitor,oplus_network_dns_hook,oplus_network_game_first,oplus_network_kernel_state_monitor,oplus_network_qr_scan,oplus_network_sched,oplus_network_score,oplus_network_snapshot,oplus_network_stats_calc,oplus_network_tuning,oplus_power_hook,oplus_secure_common,oplus_secure_guard_new,oplus_sys_stability_helper,oplus_wq_dynamic_priority,qcom_cpufreq_thermal,thermal_config,thermal_pause\"" >> ./arch/arm64/configs/gki_defconfig
+          wget https://github.com/reigadegr/Action-Build/raw/suki/black_module.patch
+          git apply black_module.patch
           # Remove check_defconfig
           sed -i 's/check_defconfig//' ./build.config.gki
           echo "移除内核模块完成"
