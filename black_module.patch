@@ -1,5 +1,5 @@
 diff --git a/kernel/module/main.c b/kernel/module/main.c
-index 48afaf8..2e104c6 100644
+index 48afaf8..dcf8193 100644
 --- a/kernel/module/main.c
 +++ b/kernel/module/main.c
 @@ -2864,6 +2864,66 @@ static int early_mod_check(struct load_info *info, int flags)
@@ -9,25 +9,21 @@ index 48afaf8..2e104c6 100644
 +static const char *blocked_modules_dev[] = {
 +    // "oplus_bsp_hybridswap_zram",
 +    // "oplus_bsp_zsmalloc",
-+    "clk_gate_test",
-+    "crypto_lz4p",
-+    "ext4_inode_test",
-+    "gzvm",
-+    "iio_test_format",
-+    "kunit",
-+    "kunit_example_test",
-+    "kunit_test",
-+    "regmap_kunit",
-+    "soc_topology_test",
-+    "soc_utils_test",
-+    "time_test",
 +    NULL
 +};
 +
 +static const char *blocked_modules_stable[] = {
++    "clk_gate_test",
 +    "cpu_hotplug",
++    "crypto_lz4p",
++    "ext4_inode_test",
 +    "f_fs_ipc_log",
++    "gzvm",
 +    "hung_task_enh",
++    "iio_test_format",
++    "kunit",
++    "kunit_example_test",
++    "kunit_test",
 +    "oplus_bsp_dfr_hung_task_enhance",
 +    "oplus_bsp_dfr_reboot_speed",
 +    "oplus_bsp_dfr_ubt",
@@ -61,8 +57,12 @@ index 48afaf8..2e104c6 100644
 +    "oplus_sys_stability_helper",
 +    "oplus_wq_dynamic_priority",
 +    "qcom_cpufreq_thermal",
++    "regmap_kunit",
++    "soc_topology_test",
++    "soc_utils_test",
 +    "thermal_config",
 +    "thermal_pause",
++    "time_test",
 +    NULL
 +};
 +
