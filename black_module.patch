@@ -1,62 +1,21 @@
 diff --git a/kernel/module/main.c b/kernel/module/main.c
-index 48afaf8..adadfe7 100644
+index 48afaf8..3c8dfc0 100644
 --- a/kernel/module/main.c
 +++ b/kernel/module/main.c
-@@ -2864,6 +2864,53 @@ static int early_mod_check(struct load_info *info, int flags)
+@@ -2864,6 +2864,12 @@ static int early_mod_check(struct load_info *info, int flags)
  	return err;
  }
  
 +static const char *blocked_modules[] = {
-+    "qcom_cpufreq_thermal",
-+    "cpu_hotplug",
-+    "oplus_bsp_storage_io_metrics",
-+    "oplus_wq_dynamic_priority",
-+    "thermal_pause",
-+    "oplus_bsp_dfr_reboot_speed",
-+    "oplus_bsp_waker_identify",
-+    "hung_task_enh",
-+    "thermal_config",
-+    "oplus_bsp_zsmalloc",
-+    "oplus_bsp_hybridswap_zram",
-+    "oplus_bsp_kswapd_opt",
-+    "oplus_bsp_memleak_detect",
-+    "oplus_bsp_dfr_ubt",
-+    "oplus_bsp_dynamic_readahead",
-+    "oplus_bsp_fpga_monitor",
-+    "oplus_bsp_proactive_compact",
-+    "oplus_bsp_pcppages_opt",
-+    "oplus_bsp_sigkill_diagnosis",
-+    "oplus_lock_torture",
 +    "oplus_network_app_monitor",
-+    "oplus_network_dns_hook",
-+    "oplus_network_qr_scan",
-+    "oplus_network_snapshot",
-+    "oplus_network_stats_calc",
-+    "oplus_secure_common",
-+    "oplus_sys_stability_helper",
-+    "oplus_bsp_uxmem_opt",
-+    "oplus_secure_guard_new",
-+    "oplus_power_hook",
-+    "oplus_bsp_dfr_hung_task_enhance",
-+    "f_fs_ipc_log",
-+    "oplus_network_score",
-+    "oplus_network_sched",
-+    "oplus_network_tuning",
-+    "oplus_bsp_zsmalloc",
-+    "oplus_bsp_hybridswap_zram",
-+    "oplus_bsp_zram_opt",
-+    "oplus_connectivity_routerboost",
-+    "oplus_network_kernel_state_monitor",
-+    "oplus_bsp_zsmalloc",
 +    "oplus_network_game_first",
-+    "oplus_bsp_kshrink_slabd",
 +    NULL
 +};
 +
  /*
   * Allocate and load the module: note that size of section 0 is always
   * zero, and we rely on this for optional sections.
-@@ -2874,6 +2921,7 @@ static int load_module(struct load_info *info, const char __user *uargs,
+@@ -2874,6 +2880,7 @@ static int load_module(struct load_info *info, const char __user *uargs,
  	struct module *mod;
  	bool module_allocated = false;
  	long err = 0;
@@ -64,11 +23,10 @@ index 48afaf8..adadfe7 100644
  	char *after_dashes;
  
  	/*
-@@ -2915,6 +2963,14 @@ static int load_module(struct load_info *info, const char __user *uargs,
- 	module_allocated = true;
+@@ -2916,6 +2923,14 @@ static int load_module(struct load_info *info, const char __user *uargs,
  
  	audit_log_kern_module(mod->name);
-+    
+ 
 +    for (i = 0; blocked_modules[i] != NULL; i++) {
 +        if (strcmp(mod->name, blocked_modules[i]) == 0) {
 +            pr_warn("Blocked module: %s\n", mod->name);
@@ -76,6 +34,7 @@ index 48afaf8..adadfe7 100644
 +            goto free_module;
 +        }
 +    }
- 
++
  	/* Reserve our place in the list. */
  	err = add_unformed_module(mod);
+ 	if (err)
