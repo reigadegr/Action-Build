@@ -1,0 +1,31 @@
+diff --git a/kernel/module/main.c b/kernel/module/main.c
+index 48afaf8..e954b66 100644
+--- a/kernel/module/main.c
++++ b/kernel/module/main.c
+@@ -2864,6 +2864,11 @@ static int early_mod_check(struct load_info *info, int flags)
+ 	return err;
+ }
+ 
++static const char *blocked_modules[] = {
++    "oplus_network_game_first",
++    NULL
++};
++
+ /*
+  * Allocate and load the module: note that size of section 0 is always
+  * zero, and we rely on this for optional sections.
+@@ -2916,6 +2921,14 @@ static int load_module(struct load_info *info, const char __user *uargs,
+ 
+ 	audit_log_kern_module(mod->name);
+ 
++    for (int i = 0; blocked_modules[i] != NULL; i++) {
++        if (strcmp(mod->name, blocked_modules[i]) == 0) {
++            pr_warn("Blocked module: %s\n", mod->name);
++            err = -EPERM;
++            goto free_module;
++        }
++    }
++
+ 	/* Reserve our place in the list. */
+ 	err = add_unformed_module(mod);
+ 	if (err)
