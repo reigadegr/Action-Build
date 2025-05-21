@@ -177,6 +177,44 @@ jobs:
           sed -i 's/check_defconfig//' ./build.config.gki
           echo "移除内核模块完成"
           
+      - name: Disable OnePlus Kernel Module
+        run: |
+          
+          cd kernel_workspace/kernel_platform/common
+          sed -i '/CONFIG_TIME_KUNIT_TEST/d' ./arch/arm64/configs/gki_defconfig
+          sed -i '/CONFIG_REGMAP_KUNIT/d' ./arch/arm64/configs/gki_defconfig
+          sed -i '/CONFIG_INPUT_KUNIT_TEST/d' ./arch/arm64/configs/gki_defconfig
+          sed -i '/CONFIG_SND_SOC_TOPOLOGY_KUNIT_TEST/d' ./arch/arm64/configs/gki_defconfig
+          sed -i '/CONFIG_SND_SOC_UTILS_KUNIT_TEST/d' ./arch/arm64/configs/gki_defconfig
+          sed -i '/CONFIG_HID_KUNIT_TEST/d' ./arch/arm64/configs/gki_defconfig
+          sed -i '/CONFIG_RTC_LIB_KUNIT_TEST/d' ./arch/arm64/configs/gki_defconfig
+          sed -i '/CONFIG_CLK_KUNIT_TEST/d' ./arch/arm64/configs/gki_defconfig
+          sed -i '/CONFIG_CLK_GATE_KUNIT_TEST/d' ./arch/arm64/configs/gki_defconfig
+          sed -i '/CONFIG_IIO_FORMAT_KUNIT_TEST/d' ./arch/arm64/configs/gki_defconfig
+          sed -i '/CONFIG_EXT4_KUNIT_TESTS/d' ./arch/arm64/configs/gki_defconfig
+          sed -i '/CONFIG_FAT_KUNIT_TEST/d' ./arch/arm64/configs/gki_defconfig
+          sed -i '/CONFIG_KUNIT/d' ./arch/arm64/configs/gki_defconfig
+          sed -i '/CONFIG_KUNIT_DEBUGFS/d' ./arch/arm64/configs/gki_defconfig
+          sed -i '/CONFIG_KUNIT_TEST/d' ./arch/arm64/configs/gki_defconfig
+          sed -i '/CONFIG_KUNIT_EXAMPLE_TEST/d' ./arch/arm64/configs/gki_defconfig
+          
+          echo "CONFIG_TIME_KUNIT_TEST=n" >> ./arch/arm64/configs/gki_defconfig
+          echo "CONFIG_REGMAP_KUNIT=n" >> ./arch/arm64/configs/gki_defconfig
+          echo "CONFIG_INPUT_KUNIT_TEST=n" >> ./arch/arm64/configs/gki_defconfig
+          echo "CONFIG_SND_SOC_TOPOLOGY_KUNIT_TEST=n" >> ./arch/arm64/configs/gki_defconfig
+          echo "CONFIG_SND_SOC_UTILS_KUNIT_TEST=n" >> ./arch/arm64/configs/gki_defconfig
+          echo "CONFIG_HID_KUNIT_TEST=n" >> ./arch/arm64/configs/gki_defconfig
+          echo "CONFIG_RTC_LIB_KUNIT_TEST=n" >> ./arch/arm64/configs/gki_defconfig
+          echo "CONFIG_CLK_KUNIT_TEST=n" >> ./arch/arm64/configs/gki_defconfig
+          echo "CONFIG_CLK_GATE_KUNIT_TEST=n" >> ./arch/arm64/configs/gki_defconfig
+          echo "CONFIG_IIO_FORMAT_KUNIT_TEST=n" >> ./arch/arm64/configs/gki_defconfig
+          echo "CONFIG_EXT4_KUNIT_TESTS=n" >> ./arch/arm64/configs/gki_defconfig
+          echo "CONFIG_FAT_KUNIT_TEST=n" >> ./arch/arm64/configs/gki_defconfig
+          echo "CONFIG_KUNIT=n" >> ./arch/arm64/configs/gki_defconfig
+          echo "CONFIG_KUNIT_DEBUGFS=n" >> ./arch/arm64/configs/gki_defconfig
+          echo "CONFIG_KUNIT_TEST=n" >> ./arch/arm64/configs/gki_defconfig
+          echo "CONFIG_KUNIT_EXAMPLE_TEST=n" >> ./arch/arm64/configs/gki_defconfig
+          
       - name: Add fengchi
         run: |
           cd kernel_workspace/kernel_platform/common
