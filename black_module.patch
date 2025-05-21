@@ -1,14 +1,16 @@
 diff --git a/kernel/module/main.c b/kernel/module/main.c
-index 48afaf8..dcf8193 100644
+index 48afaf8..2cb3d98 100644
 --- a/kernel/module/main.c
 +++ b/kernel/module/main.c
-@@ -2864,6 +2864,66 @@ static int early_mod_check(struct load_info *info, int flags)
+@@ -2864,6 +2864,68 @@ static int early_mod_check(struct load_info *info, int flags)
  	return err;
  }
  
 +static const char *blocked_modules_dev[] = {
 +    // "oplus_bsp_hybridswap_zram",
 +    // "oplus_bsp_zsmalloc",
++    // "oplus_bsp_task_overload",
++    "cpufreq_bouncing",
 +    NULL
 +};
 +
@@ -69,7 +71,7 @@ index 48afaf8..dcf8193 100644
  /*
   * Allocate and load the module: note that size of section 0 is always
   * zero, and we rely on this for optional sections.
-@@ -2874,6 +2934,7 @@ static int load_module(struct load_info *info, const char __user *uargs,
+@@ -2874,6 +2936,7 @@ static int load_module(struct load_info *info, const char __user *uargs,
  	struct module *mod;
  	bool module_allocated = false;
  	long err = 0;
@@ -77,7 +79,7 @@ index 48afaf8..dcf8193 100644
  	char *after_dashes;
  
  	/*
-@@ -2916,6 +2977,22 @@ static int load_module(struct load_info *info, const char __user *uargs,
+@@ -2916,6 +2979,22 @@ static int load_module(struct load_info *info, const char __user *uargs,
  
  	audit_log_kern_module(mod->name);
  
