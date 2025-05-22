@@ -206,9 +206,9 @@ jobs:
                 if grep -q "$item" "$config_file"; then               
                     sed -i "/$item/d" "$config_file"
                     echo "Deleted: $item"
-                fi           
-                echo "$item=n" >> "$config_file"
-                echo "Added: $item=n"
+                    echo "$item=n" >> "$config_file"
+                    echo "Added: $item=n"
+                fi
             done
 
           
