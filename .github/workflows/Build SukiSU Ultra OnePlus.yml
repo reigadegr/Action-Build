@@ -185,6 +185,15 @@ jobs:
           sed -i 's/check_defconfig//' ./build.config.gki
           echo "移除内核模块完成"
           
+      - name: Upstream for google
+        run: |
+          
+          cd kernel_workspace/kernel_platform/common
+          wget https://github.com/reigadegr/Action-Build/raw/suki/upstream.patch
+          
+          git apply upstream.patch
+          echo "更新上游完成"
+                    
       - name: Disable OnePlus Kernel Module
         run: |
           
