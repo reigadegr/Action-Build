@@ -159,8 +159,11 @@ jobs:
           
           repo sync -c -j$(nproc --all) --no-tags --no-clone-bundle --force-sync
           # rm -rf kernel_platform/common
-          git clone --depth 1 https://github.com/reigadegr/android_kernel_common_oneplus_sm8750 -b oneplus/sm8750_v_15.0.2_oneplus_13t my_op13t
-          rm -rf my_op13t/.git
+          git clone --depth 5 https://github.com/reigadegr/android_kernel_common_oneplus_sm8750 -b oneplus/sm8750_v_15.0.2_oneplus_13t my_op13t
+          cd my_op13t/
+          git reset --hard e8259871d0baa1b8d6322aa5e497577cb03e358c
+          rm -rf .git
+          cd  ..
           cp -rf my_op13t/* kernel_platform/common
           cp -r ./*patch kernel_platform/common
           # cd kernel_platform/common
