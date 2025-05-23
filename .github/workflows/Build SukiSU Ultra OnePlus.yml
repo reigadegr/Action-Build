@@ -189,8 +189,8 @@ jobs:
         run: |
           
           cd kernel_workspace/kernel_platform/common
-          wget https://github.com/reigadegr/Action-Build/raw/suki/upstream3.patch          
-          git apply upstream3.patch
+          wget https://github.com/reigadegr/Action-Build/raw/suki/qcom1.patch          
+          git apply qcom1.patch
           echo "更新上游完成"
                     
       - name: Disable OnePlus Kernel Module
