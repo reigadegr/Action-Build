@@ -156,7 +156,7 @@ jobs:
           cat black_module.patch
           repo init -u https://github.com/OnePlusOSS/kernel_manifest.git -b refs/heads/oneplus/${{ github.event.inputs.CPU }} -m ${{ github.event.inputs.FEIL }}.xml --depth=1
           
-          # repo sync -c -j$(nproc --all) --no-tags --no-clone-bundle --force-sync
+          repo sync -c -j$(nproc --all) --no-tags --no-clone-bundle --force-sync
           # rm -rf kernel_platform/common
           # git clone --depth 1 https://github.com/reigadegr/android_kernel_common_oneplus_sm8750 -b oneplus/sm8750_v_15.0.2_oneplus_13t kernel_platform/common          
           cp -r ./*patch kernel_platform/common
