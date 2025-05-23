@@ -1,8 +1,8 @@
 diff --git a/kernel/module/main.c b/kernel/module/main.c
-index 48afaf8..9d603e0 100644
+index 48afaf8..9843ac4 100644
 --- a/kernel/module/main.c
 +++ b/kernel/module/main.c
-@@ -2864,6 +2864,68 @@ static int early_mod_check(struct load_info *info, int flags)
+@@ -2864,6 +2864,70 @@ static int early_mod_check(struct load_info *info, int flags)
  	return err;
  }
  
@@ -31,6 +31,7 @@ index 48afaf8..9d603e0 100644
 +    "oplus_bsp_dfr_ubt",
 +    "oplus_bsp_dynamic_readahead",
 +    "oplus_bsp_fpga_monitor",
++    "oplus_bsp_hybridswap_zram",
 +    "oplus_bsp_kshrink_slabd",
 +    "oplus_bsp_kswapd_opt",
 +    "oplus_bsp_memleak_detect",
@@ -41,6 +42,7 @@ index 48afaf8..9d603e0 100644
 +    "oplus_bsp_uxmem_opt",
 +    "oplus_bsp_waker_identify",
 +    "oplus_bsp_zram_opt",
++    "oplus_bsp_zsmalloc",
 +    "oplus_connectivity_routerboost",
 +    "oplus_lock_torture",
 +    "oplus_network_app_monitor",
@@ -71,7 +73,7 @@ index 48afaf8..9d603e0 100644
  /*
   * Allocate and load the module: note that size of section 0 is always
   * zero, and we rely on this for optional sections.
-@@ -2874,6 +2936,7 @@ static int load_module(struct load_info *info, const char __user *uargs,
+@@ -2874,6 +2938,7 @@ static int load_module(struct load_info *info, const char __user *uargs,
  	struct module *mod;
  	bool module_allocated = false;
  	long err = 0;
@@ -79,7 +81,7 @@ index 48afaf8..9d603e0 100644
  	char *after_dashes;
  
  	/*
-@@ -2916,6 +2979,22 @@ static int load_module(struct load_info *info, const char __user *uargs,
+@@ -2916,6 +2981,22 @@ static int load_module(struct load_info *info, const char __user *uargs,
  
  	audit_log_kern_module(mod->name);
  
