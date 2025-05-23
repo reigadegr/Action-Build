@@ -199,7 +199,7 @@ jobs:
         run: |
           cd kernel_workspace/kernel_platform/common
           # wget https://github.com/reigadegr/Action-Build/raw/gki_official/fengchi.patch
-          # git apply fengchi.patch
+          git apply fengchi.patch
           echo "添加风驰成功"
           
       # 删除 -dirty 脏块
