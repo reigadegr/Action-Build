@@ -162,7 +162,8 @@ jobs:
           # git clone --depth 1 https://github.com/reigadegr/android_kernel_common_oneplus_sm8750 -b oneplus/sm8750_v_15.0.2_oneplus_13t kernel_platform/common          
           cp -r ./*patch kernel_platform/common
           cd kernel_platform/common
-          git apply qcom1.patch
+          # git apply qcom1.patch
+          patch -p1 < qcom1.patch || true
           echo "更新上游完成"
           if [  -e kernel_platform/common/BUILD.bazel ]; then
             sed -i '/^[[:space:]]*"protected_exports_list"[[:space:]]*:[[:space:]]*"android\/abi_gki_protected_exports_aarch64",$/d' kernel_platform/common/BUILD.bazel
