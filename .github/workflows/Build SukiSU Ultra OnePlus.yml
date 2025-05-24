@@ -162,7 +162,7 @@ jobs:
           if [ "${{ github.event.inputs.FEIL }}" = "oneplus_13t" ]; then
           git clone --depth 5 https://github.com/reigadegr/android_kernel_common_oneplus_sm8750 -b oneplus/sm8750_v_15.0.2_oneplus_13t my_op
           cd my_op/
-          git reset --hard 10d21374f7e29ee7717b07f1ccdd625855ed7911
+          # git reset --hard 10d21374f7e29ee7717b07f1ccdd625855ed7911
           rm -rf .git
           cd  ..
           fi
