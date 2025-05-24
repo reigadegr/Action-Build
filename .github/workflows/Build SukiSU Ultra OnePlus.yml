@@ -418,6 +418,9 @@ jobs:
               sed -i '/CONFIG_ZRAM_DEF_COMP_LZ4KD/d' "$CONFIG_FILE"
               echo "CONFIG_ZRAM_DEF_COMP=\"zstd\"" >> "$CONFIG_FILE"
               echo "CONFIG_ZRAM_DEF_COMP_ZSTD=y" >> "$CONFIG_FILE"
+              
+              sed -i '/CONFIG_CRYPTO_DEFLATE/d' "$CONFIG_FILE"
+              echo "CONFIG_CRYPTO_DEFLATE=n" >> "$CONFIG_FILE"
             fi
           fi
           cd common
