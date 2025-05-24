@@ -154,8 +154,8 @@ jobs:
           wget https://github.com/reigadegr/Action-Build/raw/gki_official/fengchi.patch
           wget https://github.com/reigadegr/Action-Build/raw/suki/black_module.patch
           cat black_module.patch
-          repo init -u https://github.com/OnePlusOSS/kernel_manifest.git -b refs/heads/oneplus/${{ github.event.inputs.CPU }} -m ${{ github.event.inputs.FEIL }}.xml --depth=1
-          
+          # repo init -u https://github.com/OnePlusOSS/kernel_manifest.git -b refs/heads/oneplus/${{ github.event.inputs.CPU }} -m ${{ github.event.inputs.FEIL }}.xml --depth=1
+          repo init -u https://android.googlesource.com/kernel/manifest.git -b common-${{ github.event.inputs.ANDROID_VERSION }}-${{ github.event.inputs.KERNEL_VERSION }} -m default.xml --depth=1                  
           repo sync -c -j$(nproc --all) --no-tags --no-clone-bundle --force-sync
           # rm -rf kernel_platform/common
           if [ "${{ github.event.inputs.FEIL }}" = "oneplus_13t" ]; then
