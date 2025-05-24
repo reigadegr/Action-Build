@@ -420,6 +420,9 @@ jobs:
               echo "CONFIG_ZRAM_DEF_COMP_ZSTD=y" >> "$CONFIG_FILE"
             fi
           fi
+          
+          git add -A
+          git commit -m "Fix: inject random suffix"
 
       - name: Build kernel
         if: ${{ github.event.inputs.CPU == 'sm8650' || github.event.inputs.CPU == 'sm7675' }}
