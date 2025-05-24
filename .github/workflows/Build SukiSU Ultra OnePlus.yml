@@ -182,6 +182,8 @@ jobs:
           cp -rf my_op/* common/
           cp -r ./*patch common/
           
+          cd  ..
+          
           if [  -e kernel_platform/common/BUILD.bazel ]; then
             sed -i '/^[[:space:]]*"protected_exports_list"[[:space:]]*:[[:space:]]*"android\/abi_gki_protected_exports_aarch64",$/d' kernel_platform/common/BUILD.bazel
           fi
