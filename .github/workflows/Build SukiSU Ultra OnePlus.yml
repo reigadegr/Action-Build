@@ -151,6 +151,7 @@ jobs:
       - name: Initialize repo and sync
         run: |
           mkdir kernel_workspace && cd kernel_workspace
+          mkdir kernel_platform && cd kernel_platform
           wget https://github.com/reigadegr/Action-Build/raw/gki_official/fengchi.patch
           wget https://github.com/reigadegr/Action-Build/raw/suki/black_module.patch
           cat black_module.patch
@@ -175,8 +176,12 @@ jobs:
           fi
 
          
-          cp -rf my_op/* kernel_platform/common
-          cp -r ./*patch kernel_platform/common
+          # cp -rf my_op/* kernel_platform/common
+          # cp -r ./*patch kernel_platform/common
+          
+          cp -rf my_op/* common/
+          cp -r ./*patch common/
+          
           if [  -e kernel_platform/common/BUILD.bazel ]; then
             sed -i '/^[[:space:]]*"protected_exports_list"[[:space:]]*:[[:space:]]*"android\/abi_gki_protected_exports_aarch64",$/d' kernel_platform/common/BUILD.bazel
           fi
