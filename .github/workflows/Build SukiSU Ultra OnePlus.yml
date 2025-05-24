@@ -420,7 +420,7 @@ jobs:
               echo "CONFIG_ZRAM_DEF_COMP_ZSTD=y" >> "$CONFIG_FILE"
             fi
           fi
-          
+          cd common
           git add -A && git commit -m "Fix: inject random suffix" || true
 
       - name: Build kernel
