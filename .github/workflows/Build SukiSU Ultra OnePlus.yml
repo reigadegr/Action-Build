@@ -159,7 +159,7 @@ jobs:
           repo sync -c -j$(nproc --all) --no-tags --no-clone-bundle --force-sync
           # rm -rf kernel_platform/common
           if [ "${{ github.event.inputs.FEIL }}" = "oneplus_13t" ]; then
-            git clone --depth 5 https://github.com/reigadegr/android_kernel_common_oneplus_sm8750 -b oneplus/sm8750_v_15.0.2_oneplus_13t my_op
+          git clone --depth 5 https://github.com/reigadegr/android_kernel_common_oneplus_sm8750 -b oneplus/sm8750_v_15.0.2_oneplus_13t my_op
           cd my_op/
           git reset --hard e8259871d0baa1b8d6322aa5e497577cb03e358c
           rm -rf .git
@@ -167,8 +167,11 @@ jobs:
           fi
           
           if [ "${{ github.event.inputs.FEIL }}" = "oneplus_13" ]; then
-            git clone --depth 1 https://github.com/reigadegr/android_kernel_common_oneplus_sm8750 -b oneplus/sm8750_v_15.0.0_oneplus_13 my_op
-            rm -rf ./my_op/.git
+          git clone --depth 5 https://github.com/reigadegr/android_kernel_common_oneplus_sm8750 -b oneplus/sm8750_v_15.0.0_oneplus_13 my_op
+          cd my_op/
+          git reset --hard f9c1a38
+          rm -rf .git
+          cd  ..
           fi
 
          
