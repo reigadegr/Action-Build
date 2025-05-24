@@ -189,23 +189,23 @@ jobs:
           sed -i 's/check_defconfig//' ./build.config.gki
           echo "移除内核模块完成"
                               
-      - name: Disable OnePlus Kernel Module
-        run: |
+      # - name: Disable OnePlus Kernel Module
+        # run: |
           
-          cd kernel_workspace/kernel_platform/common
-            config_items=(
-            "CONFIG_TLS"
-            )                    
-            config_file="./arch/arm64/configs/gki_defconfig"
+          # cd kernel_workspace/kernel_platform/common
+            # config_items=(
+            # "CONFIG_TLS"
+            # )                    
+            # config_file="./arch/arm64/configs/gki_defconfig"
                   
-            for item in "${config_items[@]}"; do
-                # 检查配置项是否存在
-                if grep -q "$item" "$config_file"; then               
-                    sed -i "/$item/d" "$config_file"
-                    echo "Deleted: $item"
-                    echo "$item=n" >> "$config_file"
-                fi
-            done
+            # for item in "${config_items[@]}"; do
+                # # 检查配置项是否存在
+                # if grep -q "$item" "$config_file"; then               
+                    # sed -i "/$item/d" "$config_file"
+                    # echo "Deleted: $item"
+                    # echo "$item=n" >> "$config_file"
+                # fi
+            # done
 
           
       - name: Add fengchi
