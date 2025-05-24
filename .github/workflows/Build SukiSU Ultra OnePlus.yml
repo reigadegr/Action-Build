@@ -96,7 +96,7 @@ on:
         type: boolean
         description: "是否启用添加更多的ZRAM算法？"
         required: true
-        default: false        
+        default: true
       FAST:
         type: boolean
         description: "是否启用快速构建，只生成Image？"
