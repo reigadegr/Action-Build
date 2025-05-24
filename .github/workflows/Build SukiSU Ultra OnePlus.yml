@@ -160,15 +160,18 @@ jobs:
           # rm -rf kernel_platform/common
           if [ "${{ github.event.inputs.FEIL }}" = "oneplus_13t" ]; then
             git clone --depth 5 https://github.com/reigadegr/android_kernel_common_oneplus_sm8750 -b oneplus/sm8750_v_15.0.2_oneplus_13t my_op
-          fi
-          
-          if [ "${{ github.event.inputs.FEIL }}" = "oneplus_13" ]; then
-            git clone --depth 5 https://github.com/reigadegr/android_kernel_common_oneplus_sm8750 -b oneplus/sm8750_v_15.0.0_oneplus_13 my_op
-          fi
           cd my_op/
           git reset --hard e8259871d0baa1b8d6322aa5e497577cb03e358c
           rm -rf .git
           cd  ..
+          fi
+          
+          if [ "${{ github.event.inputs.FEIL }}" = "oneplus_13" ]; then
+            git clone --depth 1 https://github.com/reigadegr/android_kernel_common_oneplus_sm8750 -b oneplus/sm8750_v_15.0.0_oneplus_13 my_op
+            rm -rf ./my_op/.git
+          fi
+
+         
           cp -rf my_op/* kernel_platform/common
           cp -r ./*patch kernel_platform/common
           if [  -e kernel_platform/common/BUILD.bazel ]; then
