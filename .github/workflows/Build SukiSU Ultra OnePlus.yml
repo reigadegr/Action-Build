@@ -274,10 +274,10 @@ jobs:
             kernel_platform/external/dtc/scripts/setlocalversion; do
 
               # 清理默认后缀
-              sed -i '/^res=/a res=$(echo "$res" | sed -E '\''s/-[0-9]+-o-g[0-9a-fA-F]{7,}//g'\'')' "$path"
+              sed -i '/^res=/a res=$(echo "$res" | sed -E '\''s/-[0-9]+-o-g[0-9a-fA-F]{7,}//g'\'')' "$path" || true
 
               # 替换 echo "$res" 为带随机后缀
-              sed -i "\$s|echo \"\\\$res\"|echo \"\$res-$RANDOM_SUFFIX\"|" "$path"
+              sed -i "\$s|echo \"\\\$res\"|echo \"\$res-$RANDOM_SUFFIX\"|" "$path" || true
           done
 
           # git add -A
@@ -292,7 +292,7 @@ jobs:
           KSU_VERSION=$(expr $(/usr/bin/git rev-list --count main) "+" 10606)
           echo "KSUVER=$KSU_VERSION" >> $GITHUB_ENV
           export KSU_VERSION=$KSU_VERSION
-          sed -i "s/DKSU_VERSION=12800/DKSU_VERSION=${KSU_VERSION}/" kernel/Makefile
+          sed -i "s/DKSU_VERSION=12800/DKSU_VERSION=${KSU_VERSION}/" kernel/Makefile || true
 
       - name: Apply Patches SukiSU Ultra
         run: |
