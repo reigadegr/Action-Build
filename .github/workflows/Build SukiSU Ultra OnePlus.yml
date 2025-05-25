@@ -431,7 +431,7 @@ jobs:
           elif find "$dir5" -name "Image" | grep -q "Image"; then
             image_path="$dir5"Image
           else
-            image_path=$(find "./kernel_workspace/kernel_platform/common/out/" -name "Image" | head -n 1)
+            image_path=$(find "./kernel_workspace/" -name "Image" | head -n 1)
           fi
 
           # 拷贝 Image
