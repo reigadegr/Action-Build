@@ -185,7 +185,7 @@ jobs:
           # cp -rf my_op/* kernel_platform/common
           # cp -r ./*patch kernel_platform/common
           
-          cp -rf my_op/* common/
+          # cp -rf my_op/* common/
           cp -r ./*patch common/
           
           cd  ..
