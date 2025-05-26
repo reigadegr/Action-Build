@@ -1,6 +1,0 @@
-  - name: Convert to HMBIRD_GKI
-    run: |
-        cd kernel_workspace/kernel_platform/common
-        sed -i '1iobj-y += hmbird_patch.o' drivers/Makefile
-        wget https://github.com/Numbersf/Action-Build/raw/main/patchs/hmbird_patch.patch
-        patch -p1 -F 3 < hmbird_patch.patch
