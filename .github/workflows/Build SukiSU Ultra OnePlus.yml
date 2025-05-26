@@ -125,14 +125,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          sudo apt update
-          # sudo apt upgrade -y
+          sudo apt update && sudo apt upgrade -y      
           sudo apt install -y python3 git curl clang cmake make llvm wget
-          
-      - name: 安装配置环境依赖
-        run: |
-          sudo apt update && sudo apt upgrade -y
           sudo apt-get install curl bison flex make binutils dwarves git lld pahole zip perl make gcc python3 python-is-python3 bc libssl-dev libelf-dev clang wget cmake -y
+          
+      - name: LLVM latest
+        run: |
           wget https://apt.llvm.org/llvm.sh
           sudo chmod +x llvm.sh
           sudo ./llvm.sh 20 all
