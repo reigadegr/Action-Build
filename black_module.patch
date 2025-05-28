@@ -1,16 +1,17 @@
 diff --git a/kernel/module/main.c b/kernel/module/main.c
-index 48afaf8..08678bd 100644
+index 48afaf8..a28df3d 100644
 --- a/kernel/module/main.c
 +++ b/kernel/module/main.c
-@@ -2864,6 +2864,72 @@ static int early_mod_check(struct load_info *info, int flags)
+@@ -2864,6 +2864,73 @@ static int early_mod_check(struct load_info *info, int flags)
  	return err;
  }
  
 +static const char *blocked_modules_dev[] = {
-+    "sched_walt",
-+    "oplus_bsp_task_overload",
-+    "cpufreq_bouncing",
++    // "sched_walt",
++    // "oplus_bsp_task_overload",
++    // "cpufreq_bouncing",
 +    // "oplus_bsp_sched_ext",
++    // "cpucp_fast",
 +    NULL
 +};
 +
@@ -75,7 +76,7 @@ index 48afaf8..08678bd 100644
  /*
   * Allocate and load the module: note that size of section 0 is always
   * zero, and we rely on this for optional sections.
-@@ -2874,6 +2940,7 @@ static int load_module(struct load_info *info, const char __user *uargs,
+@@ -2874,6 +2941,7 @@ static int load_module(struct load_info *info, const char __user *uargs,
  	struct module *mod;
  	bool module_allocated = false;
  	long err = 0;
@@ -83,26 +84,24 @@ index 48afaf8..08678bd 100644
  	char *after_dashes;
  
  	/*
-@@ -2916,6 +2983,22 @@ static int load_module(struct load_info *info, const char __user *uargs,
- 
- 	audit_log_kern_module(mod->name);
- 
-+    for (i = 0; blocked_modules_dev[i] != NULL; i++) {
-+        if (strcmp(mod->name, blocked_modules_dev[i]) == 0) {
-+            pr_warn("Dev: Module %s is blacklisted\n", mod->name);
-+            // err = -EPERM;
-+            goto free_module;
-+        }
-+    }
-+
-+    for (i = 0; blocked_modules_stable[i] != NULL; i++) {
-+        if (strcmp(mod->name, blocked_modules_stable[i]) == 0) {
-+            pr_warn("Stable: Module %s is blacklisted\n", mod->name);
-+            // err = -EPERM;
-+            goto free_module;
-+        }
-+    }
-+
- 	/* Reserve our place in the list. */
- 	err = add_unformed_module(mod);
+@@ -2904,6 +2972,20 @@ static int load_module(struct load_info *info, const char __user *uargs,
+ 	err = early_mod_check(info, flags);
  	if (err)
+ 		goto free_copy;
++	
++    for (i = 0; blocked_modules_dev[i] != NULL; i++) {
++        if (strcmp(info->name, blocked_modules_dev[i]) == 0) {
++            pr_warn("Dev: Module %s is blacklisted (early)\n", info->name);
++            goto free_copy;
++        }
++    }
++    
++    for (i = 0; blocked_modules_stable[i] != NULL; i++) {
++        if (strcmp(info->name, blocked_modules_stable[i]) == 0) {
++            pr_warn("Stable: Module %s is blacklisted (early)\n", info->name);
++            goto free_copy;
++        }
++    }
+ 
+ 	/* Figure out module layout, and allocate all the memory. */
+ 	mod = layout_and_allocate(info, flags);
