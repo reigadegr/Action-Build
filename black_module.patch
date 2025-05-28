@@ -1,14 +1,16 @@
 diff --git a/kernel/module/main.c b/kernel/module/main.c
-index 48afaf8..9681e70 100644
+index 48afaf8..08678bd 100644
 --- a/kernel/module/main.c
 +++ b/kernel/module/main.c
-@@ -2864,6 +2864,69 @@ static int early_mod_check(struct load_info *info, int flags)
+@@ -2864,6 +2864,72 @@ static int early_mod_check(struct load_info *info, int flags)
  	return err;
  }
  
 +static const char *blocked_modules_dev[] = {
++    "sched_walt",
++    "oplus_bsp_task_overload",
++    "cpufreq_bouncing",
 +    // "oplus_bsp_sched_ext",
-+    "oplus_freqqos_monitor",
 +    NULL
 +};
 +
@@ -43,6 +45,7 @@ index 48afaf8..9681e70 100644
 +    "oplus_bsp_zram_opt",
 +    "oplus_bsp_zsmalloc",
 +    "oplus_connectivity_routerboost",
++    "oplus_freqqos_monitor",
 +    "oplus_lock_torture",
 +    "oplus_network_app_monitor",
 +    "oplus_network_dns_hook",
@@ -72,7 +75,7 @@ index 48afaf8..9681e70 100644
  /*
   * Allocate and load the module: note that size of section 0 is always
   * zero, and we rely on this for optional sections.
-@@ -2874,6 +2937,7 @@ static int load_module(struct load_info *info, const char __user *uargs,
+@@ -2874,6 +2940,7 @@ static int load_module(struct load_info *info, const char __user *uargs,
  	struct module *mod;
  	bool module_allocated = false;
  	long err = 0;
@@ -80,7 +83,7 @@ index 48afaf8..9681e70 100644
  	char *after_dashes;
  
  	/*
-@@ -2916,6 +2980,22 @@ static int load_module(struct load_info *info, const char __user *uargs,
+@@ -2916,6 +2983,22 @@ static int load_module(struct load_info *info, const char __user *uargs,
  
  	audit_log_kern_module(mod->name);
  
