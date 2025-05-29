@@ -1,5 +1,5 @@
 diff --git a/kernel/module/main.c b/kernel/module/main.c
-index 48afaf8..ee9dc92 100644
+index 48afaf8..00f6108 100644
 --- a/kernel/module/main.c
 +++ b/kernel/module/main.c
 @@ -2864,6 +2864,77 @@ static int early_mod_check(struct load_info *info, int flags)
@@ -12,8 +12,8 @@ index 48afaf8..ee9dc92 100644
 +    // "oplus_bsp_task_overload",
 +    // "cpufreq_bouncing",
 +    // "oplus_bsp_sched_ext",
-+    "oplus_bsp_frame_boost",
-+    "oplus_bsp_sched_assist",
++    // "oplus_bsp_frame_boost",
++    // "oplus_bsp_sched_assist",
 +    NULL
 +};
 +
