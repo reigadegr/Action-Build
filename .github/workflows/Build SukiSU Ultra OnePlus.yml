@@ -141,6 +141,13 @@ jobs:
           sudo chmod +x llvm.sh
           sudo ./llvm.sh 20 all   
 
+      - name: Setup rust toolchains
+        run: |
+          rustup default nightly
+          rustup target add aarch64-linux-android armv7-linux-androideabi x86_64-linux-android i686-linux-android
+          rustup component add rust-src llvm-tools-preview
+          rustup update
+
       - name: Restore ccache
         uses: actions/cache@v3
         with:
@@ -468,12 +475,13 @@ jobs:
         run: |
          cd kernel_workspace/kernel_platform
          export PATH="/usr/lib/ccache:$PATH"
+         export RUSTC="$(which rustc)"
          git add -A && git commit -m "Fix: inject random suffix" || true
          export LTO=thin SYSTEM_DLKM_RE_SIGN=0 BUILD_SYSTEM_DLKM=0 KMI_SYMBOL_LIST_STRICT_MODE=0
          if [ "${{ github.event.inputs.FAST }}" = "true" ]; then
            # tools/bazel run --config=fast --config=stamp --lto=thin --verbose_failures -s //common:kernel_aarch64_dist -- --dist_dir=dist | tee  ../../build.txt
           cd common
-          make -j$(nproc --all) LLVM=-20 ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnuabeihf- CC=clang LD=ld.lld HOSTCC=clang HOSTLD=ld.lld O=out KCFLAGS+=-Wno-error gki_defconfig all | tee  ../../../build.txt
+          make -j$(nproc --all) LLVM=-20 ARCH=arm64 RUSTC=$RUSTC CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnuabeihf- CC=clang LD=ld.lld HOSTCC=clang HOSTLD=ld.lld O=out KCFLAGS+=-Wno-error gki_defconfig all | tee  ../../../build.txt
          else
             cd  ../
            ./kernel_platform/oplus/build/oplus_build_kernel.sh ${{ github.event.inputs.CPUD }} ${{ github.event.inputs.BUILD_METHOD }}
