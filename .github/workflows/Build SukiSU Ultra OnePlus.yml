@@ -553,10 +553,12 @@ jobs:
 
       - name: Apply patch_linux and replace Image
         run: |
-          cd kernel_workspace/kernel_platform/out/msm-kernel-${{ github.event.inputs.CPUD }}-${{ github.event.inputs.BUILD_METHOD }}/dist
-          curl -LO --retry 5 --retry-delay 2 --retry-connrefused https://raw.githubusercontent.com/Numbersf/Action-Build/main/patchs/patch_linux
+          for i in $(find kernel_workspace/kernel_platform/out/ -name "Image"); do
+            cp $i  .
+          done
+          wget https://github.com/Winkmoon/Action-Build/raw/main/patchs/patch_linux
           chmod +x patch_linux
-          ./patch_linux
+          ./patch_linux 2>&1
           rm -f Image
           mv oImage Image
           cp Image $GITHUB_WORKSPACE/AnyKernel3/Image
